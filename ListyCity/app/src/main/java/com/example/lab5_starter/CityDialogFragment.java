@@ -23,7 +23,6 @@ public class CityDialogFragment extends DialogFragment {
     public static CityDialogFragment newInstance(City city){
         Bundle args = new Bundle();
         args.putSerializable("City", city);
-
         CityDialogFragment fragment = new CityDialogFragment();
         fragment.setArguments(args);
         return fragment;
@@ -34,8 +33,7 @@ public class CityDialogFragment extends DialogFragment {
         super.onAttach(context);
         if (context instanceof CityDialogListener){
             listener = (CityDialogListener) context;
-        }
-        else {
+        } else {
             throw new RuntimeException("Implement listener");
         }
     }
@@ -56,16 +54,19 @@ public class CityDialogFragment extends DialogFragment {
             assert city != null;
             editMovieName.setText(city.getName());
             editMovieYear.setText(city.getProvince());
+        } else {
+            city = null;
         }
-        else {
-            city = null;}
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+
+        String buttonText = (Objects.equals(tag, "City Details")) ? "Save" : "Add";
+
         return builder
                 .setView(view)
                 .setTitle("City Details")
                 .setNegativeButton("Cancel", null)
-                .setPositiveButton("Continue", (dialog, which) -> {
+                .setPositiveButton(buttonText, (dialog, which) -> {
                     String title = editMovieName.getText().toString();
                     String year = editMovieYear.getText().toString();
                     if (Objects.equals(tag, "City Details")) {
